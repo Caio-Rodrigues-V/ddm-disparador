@@ -18,6 +18,7 @@ export default function LoginPage() {
     try {
       const { data } = await api.post('/auth/login', { email, password });
       localStorage.setItem('access_token', data.access_token);
+      document.cookie = `access_token=${data.access_token};path=/;max-age=86400`;
       router.push('/dashboard');
     } catch {
       setError('E-mail ou senha inválidos.');

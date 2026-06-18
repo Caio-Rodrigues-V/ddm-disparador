@@ -21,6 +21,7 @@ export function Sidebar() {
 
   const handleLogout = () => {
     localStorage.removeItem('access_token');
+    document.cookie = 'access_token=;path=/;max-age=0';
     window.location.href = '/auth/login';
   };
 
