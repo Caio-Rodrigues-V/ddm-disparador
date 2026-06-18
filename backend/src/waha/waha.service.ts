@@ -19,20 +19,25 @@ export class WahaService {
     });
   }
 
-  // ── Sessões WAHA (API direta) ────────────────────────────
-
   async createSession(sessionName: string, proxy?: { server: string; username?: string; password?: string }) {
     const body: any = { name: sessionName };
     if (proxy?.server) {
       body.config = { proxy: { server: proxy.server, username: proxy.username, password: proxy.password } };
     }
-    const { data } = await this.http.post('/api/sessions', body);
-    return data;
+    try {
+      const { data } = await this.http.post('/api/sessions', body);
+      return data;
+    } catch (err: any) {
+      if (err?.response?.status === 422 || err?.response?.data?.message?.includes('already exists')) {
+        const { data } = await this.http.get(`/api/sessions/${sessionName}`);
+        return data;
+      }
+      throw err;
+    }
   }
 
   async updateSessionProxy(sessionName: string, proxy: { server: string; username?: string; password?: string }) {
     try {
-      // Para o WAHA, recria a sessão com o proxy
       await this.http.delete(`/api/sessions/${sessionName}`).catch(() => null);
       await this.createSession(sessionName, proxy);
       await this.http.post(`/api/sessions/${sessionName}/start`).catch(() => null);
@@ -77,7 +82,6 @@ export class WahaService {
   async listWahaSessions(): Promise<string[]> {
     try {
       const { data } = await this.http.get('/api/sessions');
-      // WAHA retorna array de objetos com {name, status, ...}
       return (data || []).map((s: any) => s.name ?? s.session ?? s).filter(Boolean);
     } catch {
       return [];
@@ -85,18 +89,15 @@ export class WahaService {
   }
 
   async getQrCode(sessionName: string) {
-    // Garante que sessão existe e está iniciada no WAHA
     await this.createSession(sessionName).catch(() => null);
     await this.http.post(`/api/sessions/${sessionName}/start`).catch(() => null);
 
-    // Aguarda sessão atingir SCAN_QR_CODE (até 15s, tentativas a cada 3s)
     const delay = (ms: number) => new Promise(r => setTimeout(r, ms));
     const maxAttempts = 5;
 
     for (let attempt = 1; attempt <= maxAttempts; attempt++) {
       await delay(3000);
       try {
-        // WAHA retorna PNG binário direto — buscar como arraybuffer
         const response = await this.http.get(`/api/${sessionName}/auth/qr`, {
           responseType: 'arraybuffer',
         });
@@ -118,8 +119,6 @@ export class WahaService {
       }
     }
   }
-
-  // ── Envio de mensagens ───────────────────────────────────
 
   async sendText(sessionName: string, phone: string, text: string): Promise<{ id: string }> {
     const chatId = phone.replace('+', '') + '@c.us';
@@ -159,8 +158,6 @@ export class WahaService {
     return data;
   }
 
-  // ── Sincronizar status da sessão no banco ────────────────
-
   async syncSessionStatus(sessionName: string) {
     try {
       const wahaSession = await this.getSessionStatus(sessionName);
@@ -168,13 +165,11 @@ export class WahaService {
 
       const update: Record<string, any> = { status };
 
-      // Sincroniza telefone quando conectado
       if (wahaSession.me?.id) {
         const raw = wahaSession.me.id.replace('@c.us', '').replace('@lid', '');
         if (/^\d+$/.test(raw)) update.telefone = '+' + raw;
       }
 
-      // Sincroniza proxy configurado no WAHA
       const proxy = wahaSession.config?.proxy;
       if (proxy) {
         update.proxy_server   = proxy.server   || null;
@@ -207,8 +202,6 @@ export class WahaService {
     };
     return map[wahaStatus] || 'desconectada';
   }
-
-  // ── Gerenciamento de sessões no banco ────────────────────
 
   async wahaHealthCheck() {
     try {
@@ -288,10 +281,8 @@ export class WahaService {
     const session = await this.dbGetSession(id);
     if (!session) throw new NotFoundException('Sessão não encontrada');
 
-    // Remove do WAHA
     await this.deleteWahaSession(session.waha_session_name);
 
-    // Remove do banco
     const { error } = await this.supabase.db
       .from('whatsapp_sessions')
       .delete()
