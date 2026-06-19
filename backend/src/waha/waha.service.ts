@@ -82,7 +82,10 @@ export class WahaService {
   async listWahaSessions(): Promise<string[]> {
     try {
       const { data } = await this.http.get('/api/sessions');
-      return (data || []).map((s: any) => s.name ?? s.session ?? s).filter(Boolean);
+      return (data || [])
+        .map((s: any) => s.name ?? s.session ?? s)
+        .filter(Boolean)
+        .filter((name: string) => this.isDdmSessionName(name));
     } catch {
       return [];
     }
@@ -203,6 +206,16 @@ export class WahaService {
     return map[wahaStatus] || 'desconectada';
   }
 
+  private isDdmSessionName(sessionName: string): boolean {
+    const normalized = String(sessionName)
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase()
+      .replace(/[^a-z0-9]/g, '');
+
+    return normalized.includes('ddm');
+  }
+
   async wahaHealthCheck() {
     try {
       const { data } = await this.http.get('/api/sessions');
@@ -224,6 +237,10 @@ export class WahaService {
     proxy_username?: string;
     proxy_password?: string;
   }) {
+    if (!this.isDdmSessionName(body.nome_sessao)) {
+      throw new BadRequestException('Apenas sessoes WAHA com DDM no nome podem ser cadastradas.');
+    }
+
     const proxy = body.proxy_server
       ? { server: body.proxy_server, username: body.proxy_username, password: body.proxy_password }
       : undefined;

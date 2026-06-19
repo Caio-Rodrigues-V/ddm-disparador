@@ -26,6 +26,16 @@ const STATUS_DOT: Record<string, string> = {
 const EMPTY_FORM = { nome_sessao: '', limite_diario: 500, proxy_server: '', proxy_username: '', proxy_password: '' };
 const EMPTY_PROXY = { proxy_server: '', proxy_username: '', proxy_password: '' };
 
+const isDdmSessionName = (sessionName: string) => {
+  const normalized = String(sessionName)
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]/g, '');
+
+  return normalized.includes('ddm');
+};
+
 export default function SessionsPage() {
   const qc = useQueryClient();
   const [showForm, setShowForm] = useState(false);
@@ -110,7 +120,7 @@ export default function SessionsPage() {
   };
 
   const registeredNames = sessions.map((s: any) => s.waha_session_name);
-  const unregistered = (wahaAvailable as string[]).filter(n => !registeredNames.includes(n));
+  const unregistered = (wahaAvailable as string[]).filter(n => isDdmSessionName(n) && !registeredNames.includes(n));
 
   return (
     <div className="p-8 space-y-6">
