@@ -47,27 +47,8 @@ export default function LoginPage() {
 
         {/* ── Marca DDM ── */}
         <div className="text-center mb-8">
-          <div
-            className="inline-flex items-center justify-center w-14 h-14 rounded-2xl mb-5 shadow-xl"
-            style={{
-              background: 'var(--ddm-primary)',
-              boxShadow: '0 8px 24px rgba(255,87,6,0.4)',
-            }}
-          >
-            <span
-              className="text-white font-bold text-2xl leading-none select-none"
-              style={{ fontFamily: 'Poppins, sans-serif' }}
-            >
-              D
-            </span>
-          </div>
-          <h1
-            className="text-2xl font-bold text-white tracking-tight"
-            style={{ fontFamily: 'Poppins, sans-serif' }}
-          >
-            Grupo DDM
-          </h1>
-          <p className="text-sm mt-1" style={{ color: '#64748B', fontFamily: 'Inter, sans-serif' }}>
+          <img src="/images/logo-ddm-white.png" alt="Grupo DDM" className="h-12 w-auto mx-auto mb-4" />
+          <p className="text-sm" style={{ color: '#64748B', fontFamily: 'Inter, sans-serif' }}>
             Plataforma de Disparo — WhatsApp IA
           </p>
         </div>

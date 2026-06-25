@@ -27,8 +27,11 @@
   --ddm-danger:  #EF4444;
   --ddm-info:    #3B82F6;
 
+  /* Page background */
+  --ddm-cream: #FAF7F4;
+
   /* Dark sidebar */
-  --sidebar-bg:     #0F172A;
+  --sidebar-bg:     #1A1A2E;
   --sidebar-surface:#1E293B;
   --sidebar-border: #334155;
 }
@@ -39,7 +42,7 @@
 }
 
 body {
-  background: var(--ddm-gray-50);
+  background: var(--ddm-cream);
   color: var(--ddm-gray-900);
   font-family: 'Inter', sans-serif;
 }
@@ -54,7 +57,7 @@ h1, h2, h3, h4, h5, h6 {
 
 @layer components {
   .card {
-    @apply bg-white rounded-2xl shadow-sm border border-gray-100;
+    @apply bg-white rounded-xl shadow-sm border border-gray-100;
   }
 
   .btn-primary {
