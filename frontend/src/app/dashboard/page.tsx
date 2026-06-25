@@ -8,13 +8,9 @@ import {
 
 /* ── Mapa de cores DDM para os ícones dos cards ─────────────────────── */
 const colorMap: Record<string, { bg: string; color: string }> = {
-  blue:    { bg: 'rgba(59,130,246,0.1)',  color: '#3B82F6' },
-  green:   { bg: 'rgba(16,185,129,0.1)',  color: '#10B981' },
-  red:     { bg: 'rgba(239,68,68,0.1)',   color: '#EF4444' },
-  orange:  { bg: 'rgba(255,87,6,0.1)',    color: '#FF5706' },
-  purple:  { bg: 'rgba(31,122,224,0.1)',  color: '#1F7AE0' },
-  yellow:  { bg: 'rgba(245,158,11,0.1)',  color: '#F59E0B' },
-  emerald: { bg: 'rgba(16,185,129,0.1)',  color: '#10B981' },
+  orange: { bg: '#FFF3EC', color: '#FF5706' },
+  red:    { bg: 'rgba(239,68,68,0.1)', color: '#EF4444' },
+  yellow: { bg: 'rgba(245,158,11,0.1)', color: '#F59E0B' },
 };
 
 /* ── StatCard ─────────────────────────────────────────────────────────── */
@@ -22,14 +18,14 @@ function StatCard({ label, value, sub, icon: Icon, color }: {
   label: string; value?: string | number; sub?: string;
   icon: React.ElementType; color: string;
 }) {
-  const palette = colorMap[color] ?? colorMap.blue;
+  const palette = colorMap[color] ?? colorMap.orange;
   return (
     <div
-      className="bg-white rounded-2xl border border-gray-100 p-5 flex items-start gap-4 transition-shadow hover:shadow-md"
-      style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}
+      className="bg-white rounded-xl border border-gray-100 p-6 flex items-start gap-4 transition-shadow hover:shadow-md"
+      style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}
     >
       <div
-        className="p-2.5 rounded-xl flex-shrink-0"
+        className="p-2.5 rounded-lg flex-shrink-0"
         style={{ background: palette.bg }}
       >
         <Icon size={18} style={{ color: palette.color }} />
@@ -45,7 +41,7 @@ function StatCard({ label, value, sub, icon: Icon, color }: {
           {value ?? '—'}
         </p>
         {sub && (
-          <p className="text-xs mt-1" style={{ color: '#9CA3AF', fontFamily: 'Inter, sans-serif' }}>
+          <p className="text-xs mt-1" style={{ color: '#939598', fontFamily: 'Inter, sans-serif' }}>
             {sub}
           </p>
         )}
@@ -59,12 +55,12 @@ function SectionHeader({ title }: { title: string }) {
   return (
     <div className="flex items-center gap-3 mb-4">
       <h2
-        className="text-xs font-semibold uppercase tracking-widest whitespace-nowrap"
-        style={{ color: '#9CA3AF', fontFamily: 'Poppins, sans-serif' }}
+        className="font-semibold uppercase whitespace-nowrap"
+        style={{ color: '#939598', fontFamily: 'Poppins, sans-serif', fontSize: 13, letterSpacing: '0.12em' }}
       >
         {title}
       </h2>
-      <div className="flex-1 h-px" style={{ background: '#F3F4F6' }} />
+      <div className="flex-1 h-px" style={{ background: '#EDE8E3' }} />
     </div>
   );
 }
@@ -72,9 +68,9 @@ function SectionHeader({ title }: { title: string }) {
 /* ── Skeleton ─────────────────────────────────────────────────────────── */
 function SkeletonCard() {
   return (
-    <div className="bg-white rounded-2xl border border-gray-100 p-5 animate-pulse">
+    <div className="bg-white rounded-xl border border-gray-100 p-6 animate-pulse">
       <div className="flex items-start gap-4">
-        <div className="w-10 h-10 bg-gray-100 rounded-xl" />
+        <div className="w-10 h-10 bg-gray-100 rounded-lg" />
         <div className="flex-1 space-y-2 pt-1">
           <div className="h-3 bg-gray-100 rounded w-24" />
           <div className="h-7 bg-gray-100 rounded w-16" />
@@ -131,12 +127,13 @@ export default function DashboardPage() {
           </p>
         </div>
 
-        {/* Badge "Ao vivo" com laranja DDM */}
+        {/* Badge "Ao vivo" */}
         <div
           className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full"
           style={{
-            background: 'rgba(255,87,6,0.08)',
+            background: '#FFF3EC',
             color: '#FF5706',
+            border: '1px solid #FF8754',
             fontFamily: 'Poppins, sans-serif',
           }}
         >
@@ -152,10 +149,10 @@ export default function DashboardPage() {
       <section>
         <SectionHeader title="Contatos" />
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <StatCard label="Total de Contatos"  value={contacts?.total?.toLocaleString('pt-BR')}       icon={Users}         color="blue"   />
-          <StatCard label="Aptos para Envio"   value={contacts?.aptos?.toLocaleString('pt-BR')}       icon={CheckCircle2}  color="green"  />
+          <StatCard label="Total de Contatos"  value={contacts?.total?.toLocaleString('pt-BR')}       icon={Users}         color="orange" />
+          <StatCard label="Aptos para Envio"   value={contacts?.aptos?.toLocaleString('pt-BR')}       icon={CheckCircle2}  color="orange" />
           <StatCard label="Bloqueados"         value={contacts?.bloqueados?.toLocaleString('pt-BR')}  icon={Users}         color="red"    />
-          <StatCard label="Blacklist"          value={contacts?.blacklisted?.toLocaleString('pt-BR')} icon={AlertTriangle} color="orange" />
+          <StatCard label="Blacklist"          value={contacts?.blacklisted?.toLocaleString('pt-BR')} icon={AlertTriangle} color="red"    />
         </div>
       </section>
 
@@ -163,10 +160,10 @@ export default function DashboardPage() {
       <section>
         <SectionHeader title="Campanhas" />
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <StatCard label="Campanhas Ativas"   value={campaigns?.ativas}                              icon={Megaphone}     color="orange"  />
-          <StatCard label="Mensagens Enviadas" value={campaigns?.enviados?.toLocaleString('pt-BR')}   icon={TrendingUp}    color="blue"    />
-          <StatCard label="Respostas"          value={campaigns?.respostas?.toLocaleString('pt-BR')}  icon={MessageSquare} color="purple"  sub={taxaResposta + ' de taxa'} />
-          <StatCard label="Convertidos"        value={campaigns?.convertidos?.toLocaleString('pt-BR')} icon={TrendingUp}   color="emerald" />
+          <StatCard label="Campanhas Ativas"   value={campaigns?.ativas}                               icon={Megaphone}     color="orange" />
+          <StatCard label="Mensagens Enviadas" value={campaigns?.enviados?.toLocaleString('pt-BR')}    icon={TrendingUp}    color="orange" />
+          <StatCard label="Respostas"          value={campaigns?.respostas?.toLocaleString('pt-BR')}   icon={MessageSquare} color="orange" sub={taxaResposta + ' de taxa'} />
+          <StatCard label="Convertidos"        value={campaigns?.convertidos?.toLocaleString('pt-BR')} icon={TrendingUp}    color="orange" />
         </div>
       </section>
 
@@ -174,10 +171,10 @@ export default function DashboardPage() {
       <section>
         <SectionHeader title="Operação" />
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <StatCard label="Sessões Conectadas"   value={sessions?.conectadas}                          icon={Smartphone}    color="green"  sub={`${sessions?.total ?? 0} total`} />
+          <StatCard label="Sessões Conectadas"   value={sessions?.conectadas}                          icon={Smartphone}    color="orange" sub={`${sessions?.total ?? 0} total`} />
           <StatCard label="Sessões Instáveis"    value={sessions?.instaveis}                           icon={AlertTriangle} color="yellow" />
-          <StatCard label="Envios Hoje"          value={sessions?.enviosHoje?.toLocaleString('pt-BR')} icon={TrendingUp}    color="blue"   />
-          <StatCard label="Atendimentos Abertos" value={attendance?.novos}                             icon={Clock}         color="purple" sub={`${attendance?.emAtendimento ?? 0} em andamento`} />
+          <StatCard label="Envios Hoje"          value={sessions?.enviosHoje?.toLocaleString('pt-BR')} icon={TrendingUp}    color="orange" />
+          <StatCard label="Atendimentos Abertos" value={attendance?.novos}                             icon={Clock}         color="orange" sub={`${attendance?.emAtendimento ?? 0} em andamento`} />
         </div>
       </section>
 
@@ -186,8 +183,8 @@ export default function DashboardPage() {
         <section>
           <SectionHeader title="Fila de Hoje" />
           <div
-            className="bg-white rounded-2xl border border-gray-100 p-6"
-            style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}
+            className="bg-white rounded-xl border border-gray-100 p-6"
+            style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}
           >
             <div className="flex flex-wrap gap-8">
               {Object.entries(queue).map(([status, count]: any) => (
