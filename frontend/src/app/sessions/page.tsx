@@ -6,7 +6,7 @@ import { Plus, Play, Square, RefreshCw, QrCode, Trash2, Smartphone, X, AlertCirc
 import clsx from 'clsx';
 
 const STATUS_COLORS: Record<string, string> = {
-  conectada:         'bg-emerald-100 text-emerald-700',
+  conectada:         'bg-[#FFF3EC] text-[#FF5706]',
   desconectada:      'bg-slate-100 text-slate-500',
   aguardando_qrcode: 'bg-amber-100 text-amber-700',
   instavel:          'bg-orange-100 text-orange-600',
@@ -16,7 +16,7 @@ const STATUS_COLORS: Record<string, string> = {
 };
 
 const STATUS_DOT: Record<string, string> = {
-  conectada:         'bg-emerald-500',
+  conectada:         'bg-[#FF5706]',
   desconectada:      'bg-slate-400',
   aguardando_qrcode: 'bg-amber-500 animate-pulse',
   instavel:          'bg-orange-500',
@@ -179,7 +179,7 @@ export default function SessionsPage() {
                 </button>
               )}
               <button onClick={() => startMut.mutate(s.id)}
-                className="p-2 text-emerald-600 hover:bg-emerald-50 rounded-xl transition-colors" title="Iniciar">
+                className="p-2 text-[#FF5706] hover:bg-[#FFF3EC] rounded-xl transition-colors" title="Iniciar">
                 <Play size={17} />
               </button>
               <button onClick={() => syncMut.mutate(s.id)}
@@ -220,7 +220,7 @@ export default function SessionsPage() {
                     {unregistered.map(name => (
                       <button key={name} type="button"
                         onClick={() => setForm(f => ({ ...f, nome_sessao: name }))}
-                        className={`text-xs px-2.5 py-1 rounded-lg font-medium transition-colors border ${form.nome_sessao === name ? 'bg-emerald-100 border-emerald-300 text-emerald-700' : 'bg-slate-50 border-slate-200 text-slate-600 hover:border-slate-300 hover:bg-slate-100'}`}>
+                        className={`text-xs px-2.5 py-1 rounded-lg font-medium transition-colors border ${form.nome_sessao === name ? 'bg-[#FFF3EC] border-[#FF8754] text-[#FF5706]' : 'bg-slate-50 border-slate-200 text-slate-600 hover:border-slate-300 hover:bg-slate-100'}`}>
                         {name}
                       </button>
                     ))}
@@ -289,7 +289,7 @@ export default function SessionsPage() {
               <p className="text-xs text-slate-400">Sessão: <span className="font-medium text-slate-700">{qrSession.nome}</span></p>
               {qrLoading && (
                 <div className="flex flex-col items-center gap-3 py-8">
-                  <div className="w-8 h-8 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin" />
+                  <div className="w-8 h-8 border-2 border-[#FF5706] border-t-transparent rounded-full animate-spin" />
                   <p className="text-sm text-slate-400">Iniciando sessão e aguardando QR...</p>
                   <p className="text-xs text-slate-300">Pode levar até 15 segundos</p>
                 </div>
@@ -304,7 +304,7 @@ export default function SessionsPage() {
                 <>
                   <img src={qrSession.qr.value} alt="QR Code" className="mx-auto rounded-xl w-56 h-56" />
                   <div className="flex items-center gap-2 justify-center">
-                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                    <div className="w-1.5 h-1.5 rounded-full bg-[#FF5706] animate-pulse" />
                     <p className="text-xs text-slate-400">Aguardando leitura...</p>
                   </div>
                   <p className="text-xs text-slate-300">WhatsApp → Aparelhos conectados → Conectar aparelho</p>

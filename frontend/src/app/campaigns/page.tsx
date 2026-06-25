@@ -30,7 +30,7 @@ const STATUS_COLORS: Record<string, string> = {
   rascunho:             'bg-slate-100 text-slate-600',
   aguardando_aprovacao: 'bg-amber-100 text-amber-700',
   aprovada:             'bg-blue-100 text-blue-700',
-  em_execucao:          'bg-emerald-100 text-emerald-700',
+  em_execucao:          'bg-[#FFF3EC] text-[#FF5706]',
   pausada:              'bg-orange-100 text-orange-700',
   encerrada:            'bg-slate-100 text-slate-500',
   bloqueada_por_risco:  'bg-red-100 text-red-700',
@@ -49,7 +49,7 @@ const STATUS_LABEL: Record<string, string> = {
 };
 
 const RISK_COLORS: Record<string, string> = {
-  baixo: 'text-emerald-600 bg-emerald-50',
+  baixo: 'text-[#10B981] bg-[#F0FDF4]',
   medio: 'text-amber-600 bg-amber-50',
   alto:  'text-red-600 bg-red-50',
 };
@@ -301,7 +301,7 @@ export default function CampaignsPage() {
                     {c.status === 'rascunho' && (
                       <button
                         onClick={() => startMut.mutate(c.id)}
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg transition-colors"
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold bg-[#FF5706] hover:bg-[#E84B00] text-white rounded-lg transition-colors"
                       >
                         <Send size={11} /> Enviar
                       </button>
@@ -309,7 +309,7 @@ export default function CampaignsPage() {
                     {/* Aprovada ou pausada → Iniciar */}
                     {(c.status === 'aprovada' || c.status === 'pausada') && (
                       <button onClick={() => startMut.mutate(c.id)}
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg transition-colors">
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold bg-[#FF5706] hover:bg-[#E84B00] text-white rounded-lg transition-colors">
                         <Play size={11} /> Iniciar
                       </button>
                     )}
@@ -429,16 +429,16 @@ export default function CampaignsPage() {
                         <button key={s.id} type="button" onClick={() => toggleSession(s.id)}
                           className={clsx(
                             'w-full flex items-center gap-3 px-4 py-3 rounded-xl border text-left transition-all',
-                            selected ? 'border-emerald-400 bg-emerald-50' : 'border-slate-200 bg-white hover:border-slate-300',
+                            selected ? 'border-[#FF8754] bg-[#FFF3EC]' : 'border-slate-200 bg-white hover:border-slate-300',
                           )}>
                           {selected
-                            ? <CheckSquare size={16} className="text-emerald-500 flex-shrink-0" />
+                            ? <CheckSquare size={16} className="text-[#FF5706] flex-shrink-0" />
                             : <Square size={16} className="text-slate-300 flex-shrink-0" />}
                           <div className="min-w-0 flex-1">
-                            <p className={clsx('text-sm font-medium', selected ? 'text-emerald-800' : 'text-slate-700')}>{s.nome_sessao}</p>
+                            <p className={clsx('text-sm font-medium', selected ? 'text-[#E84B00]' : 'text-slate-700')}>{s.nome_sessao}</p>
                             <p className="text-xs text-slate-400">{s.telefone || 'Sem telefone'}</p>
                           </div>
-                          <span className="text-[10px] font-semibold text-emerald-600 bg-emerald-100 px-2 py-0.5 rounded-full">conectada</span>
+                          <span className="text-[10px] font-semibold text-[#FF5706] bg-[#FFF3EC] px-2 py-0.5 rounded-full">conectada</span>
                         </button>
                       );
                     })}
@@ -485,12 +485,12 @@ export default function CampaignsPage() {
                   <div className="flex gap-2">
                     <button type="button" onClick={() => setIsScheduled(false)}
                       className={clsx('flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl border text-sm font-medium transition-all',
-                        !isScheduled ? 'border-emerald-400 bg-emerald-50 text-emerald-700' : 'border-slate-200 text-slate-500 hover:border-slate-300')}>
+                        !isScheduled ? 'border-[#FF8754] bg-[#FFF3EC] text-[#FF5706]' : 'border-slate-200 text-slate-500 hover:border-slate-300')}>
                       <Play size={14} /> Disparar imediatamente
                     </button>
                     <button type="button" onClick={() => setIsScheduled(true)}
                       className={clsx('flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl border text-sm font-medium transition-all',
-                        isScheduled ? 'border-blue-400 bg-blue-50 text-blue-700' : 'border-slate-200 text-slate-500 hover:border-slate-300')}>
+                        isScheduled ? 'border-[#FF8754] bg-[#FFF3EC] text-[#FF5706]' : 'border-slate-200 text-slate-500 hover:border-slate-300')}>
                       <CalendarDays size={14} /> Agendar disparo
                     </button>
                   </div>
@@ -526,7 +526,7 @@ export default function CampaignsPage() {
                             className={clsx(
                               'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium border transition-all',
                               selected
-                                ? 'border-emerald-400 bg-emerald-50 text-emerald-700'
+                                ? 'border-[#FF8754] bg-[#FFF3EC] text-[#FF5706]'
                                 : 'border-slate-200 text-slate-500 hover:border-slate-300',
                             )}
                           >
@@ -537,7 +537,7 @@ export default function CampaignsPage() {
                       })}
                     </div>
                     {form.tags_filtro.length > 0 && (
-                      <p className="text-[11px] text-emerald-600 mt-2">
+                      <p className="text-[11px] text-[#FF5706] mt-2">
                         Filtrando por: {form.tags_filtro.join(', ')}
                       </p>
                     )}
@@ -616,7 +616,7 @@ export default function CampaignsPage() {
                               <span className="text-[10px] text-slate-400 font-medium">Inserir variável:</span>
                               {VARS.map(v => (
                                 <button key={v} type="button" onClick={() => insertVar(idx, v)}
-                                  className="text-[10px] font-mono bg-slate-100 hover:bg-emerald-100 hover:text-emerald-700 text-slate-600 px-2 py-0.5 rounded transition-colors">
+                                  className="text-[10px] font-mono bg-slate-100 hover:bg-[#FFF3EC] hover:text-[#FF5706] text-slate-600 px-2 py-0.5 rounded transition-colors">
                                   {v}
                                 </button>
                               ))}
@@ -629,7 +629,7 @@ export default function CampaignsPage() {
                 </div>
 
                 <button type="button" onClick={addMsg}
-                  className="mt-3 w-full flex items-center justify-center gap-2 py-2.5 border-2 border-dashed border-slate-200 hover:border-emerald-300 hover:text-emerald-600 text-slate-400 text-xs font-medium rounded-2xl transition-all">
+                  className="mt-3 w-full flex items-center justify-center gap-2 py-2.5 border-2 border-dashed border-slate-200 hover:border-[#FF8754] hover:text-[#FF5706] text-slate-400 text-xs font-medium rounded-2xl transition-all">
                   <Plus size={14} /> Adicionar mensagem
                 </button>
               </Section>

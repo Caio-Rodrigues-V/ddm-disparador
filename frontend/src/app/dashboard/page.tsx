@@ -12,7 +12,7 @@ const colorMap: Record<string, { bg: string; color: string }> = {
   green:   { bg: 'rgba(16,185,129,0.1)',  color: '#10B981' },
   red:     { bg: 'rgba(239,68,68,0.1)',   color: '#EF4444' },
   orange:  { bg: 'rgba(255,87,6,0.1)',    color: '#FF5706' },
-  purple:  { bg: 'rgba(139,92,246,0.1)',  color: '#8B5CF6' },
+  purple:  { bg: 'rgba(31,122,224,0.1)',  color: '#1F7AE0' },
   yellow:  { bg: 'rgba(245,158,11,0.1)',  color: '#F59E0B' },
   emerald: { bg: 'rgba(16,185,129,0.1)',  color: '#10B981' },
 };

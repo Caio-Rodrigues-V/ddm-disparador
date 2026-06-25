@@ -90,7 +90,7 @@ export default function DragUpload({ accept, mediaType, value, onUpload, onClear
         className={clsx(
           'border-2 border-dashed rounded-xl py-5 px-4 text-center cursor-pointer transition-all select-none',
           dragging
-            ? 'border-emerald-400 bg-emerald-50'
+            ? 'border-[#FF8754] bg-[#FFF3EC]'
             : 'border-slate-200 hover:border-slate-300 bg-slate-50/50',
         )}
         onDragOver={e => { e.preventDefault(); setDragging(true); }}
@@ -111,12 +111,12 @@ export default function DragUpload({ accept, mediaType, value, onUpload, onClear
 
         {uploading ? (
           <div className="flex flex-col items-center gap-2">
-            <Loader2 size={18} className="text-emerald-500 animate-spin" />
+            <Loader2 size={18} className="text-[#FF5706] animate-spin" />
             <p className="text-xs text-slate-400">Enviando...</p>
           </div>
         ) : (
           <div className="flex flex-col items-center gap-1.5">
-            <Upload size={18} className={dragging ? 'text-emerald-500' : 'text-slate-400'} />
+            <Upload size={18} className={dragging ? 'text-[#FF5706]' : 'text-slate-400'} />
             <p className="text-xs font-medium text-slate-500">
               {dragging ? 'Solte aqui' : 'Arraste ou clique para selecionar'}
             </p>
