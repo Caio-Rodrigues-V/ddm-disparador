@@ -14,7 +14,7 @@ const STATUS_COLORS: Record<string, string> = {
   rascunho:             'bg-slate-100 text-slate-600',
   aguardando_aprovacao: 'bg-amber-100 text-amber-700',
   aprovada:             'bg-blue-100 text-blue-700',
-  em_execucao:          'bg-emerald-100 text-emerald-700',
+  em_execucao:          'bg-[#FFF3EC] text-[#FF5706]',
   pausada:              'bg-orange-100 text-orange-700',
   encerrada:            'bg-slate-100 text-slate-500',
   bloqueada_por_risco:  'bg-red-100 text-red-700',
@@ -29,8 +29,8 @@ const STATUS_LABEL: Record<string, string> = {
 };
 
 const QUEUE_STATUS_ICON: Record<string, any> = {
-  enviado:  { Icon: CheckCircle2, cls: 'text-emerald-500' },
-  enviando: { Icon: Send,         cls: 'text-blue-500 animate-pulse' },
+  enviado:  { Icon: CheckCircle2, cls: 'text-[#10B981]' },
+  enviando: { Icon: Send,         cls: 'text-[#FF5706] animate-pulse' },
   agendado: { Icon: Clock,        cls: 'text-slate-400' },
   pendente: { Icon: Clock,        cls: 'text-slate-400' },
   erro:     { Icon: XCircle,      cls: 'text-red-500' },
@@ -123,7 +123,7 @@ export default function CampaignDetailPage() {
     return (
       <div className="p-8 text-center text-slate-400">
         <p>Campanha não encontrada.</p>
-        <Link href="/campaigns" className="text-emerald-600 text-sm mt-2 inline-block">← Voltar</Link>
+        <Link href="/campaigns" className="text-[#FF5706] text-sm mt-2 inline-block">← Voltar</Link>
       </div>
     );
   }
@@ -151,7 +151,7 @@ export default function CampaignDetailPage() {
         <div className="flex items-center gap-2">
           {['rascunho', 'aprovada', 'pausada'].includes(campaign.status) && (
             <button onClick={() => startMut.mutate()} disabled={startMut.isLoading}
-              className="inline-flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 disabled:opacity-50 text-white font-medium px-4 py-2 rounded-xl text-sm transition-all">
+              className="inline-flex items-center gap-2 bg-[#FF5706] hover:bg-[#E84B00] disabled:opacity-50 text-white font-medium px-4 py-2 rounded-xl text-sm transition-all">
               <Play size={14} /> {startMut.isLoading ? 'Iniciando...' : 'Iniciar'}
             </button>
           )}
@@ -196,7 +196,7 @@ export default function CampaignDetailPage() {
 
       {/* Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <StatCard label="Enviados" value={totalSent.toLocaleString('pt-BR')} color="text-emerald-600" />
+        <StatCard label="Enviados" value={totalSent.toLocaleString('pt-BR')} color="text-[#10B981]" />
         <StatCard label="Pendentes" value={totalPending.toLocaleString('pt-BR')} color="text-slate-600" />
         <StatCard label="Erros" value={totalError.toLocaleString('pt-BR')} color="text-red-500" />
         <StatCard label="Total fila" value={totalEnqueued.toLocaleString('pt-BR')} sub={`${metrics.total_contatos ?? 0} contatos`} />
@@ -211,12 +211,12 @@ export default function CampaignDetailPage() {
           </div>
           <div className="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden">
             <div
-              className="bg-emerald-500 h-2.5 rounded-full transition-all duration-500"
+              className="bg-[#FF5706] h-2.5 rounded-full transition-all duration-500"
               style={{ width: `${Math.round((totalSent / totalEnqueued) * 100)}%` }}
             />
           </div>
           <div className="flex items-center gap-4 mt-3 text-xs text-slate-400">
-            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-emerald-400 inline-block" /> Enviado: {totalSent}</span>
+            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-[#FF8754] inline-block" /> Enviado: {totalSent}</span>
             <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-slate-200 inline-block" /> Pendente: {totalPending}</span>
             <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-red-400 inline-block" /> Erro: {totalError}</span>
           </div>
@@ -286,7 +286,7 @@ export default function CampaignDetailPage() {
                     <button
                       onClick={() => updateMut.mutate({ janela_inicio: windowForm.janela_inicio, janela_fim: windowForm.janela_fim })}
                       disabled={updateMut.isLoading}
-                      className="text-xs bg-emerald-500 hover:bg-emerald-600 text-white font-medium px-3 py-1 rounded-lg disabled:opacity-50"
+                      className="text-xs bg-[#FF5706] hover:bg-[#E84B00] text-white font-medium px-3 py-1 rounded-lg disabled:opacity-50"
                     >{updateMut.isLoading ? 'Salvando...' : 'Salvar'}</button>
                   </div>
                 </div>
@@ -375,7 +375,7 @@ export default function CampaignDetailPage() {
                       </div>
                       <div className="text-right flex-shrink-0">
                         <span className="badge bg-slate-50 text-slate-500" style={{ fontSize: queueFontSize - 3 }}>{item.tipo}</span>
-                        {item.sent_at && <p className="text-emerald-500 mt-0.5" style={{ fontSize: queueFontSize - 3 }}>Enviado {new Date(item.sent_at).toLocaleTimeString('pt-BR')}</p>}
+                        {item.sent_at && <p className="text-[#10B981] mt-0.5" style={{ fontSize: queueFontSize - 3 }}>Enviado {new Date(item.sent_at).toLocaleTimeString('pt-BR')}</p>}
                         {!item.sent_at && item.scheduled_at && <p className="text-slate-400 mt-0.5" style={{ fontSize: queueFontSize - 3 }}>Agendado {new Date(item.scheduled_at).toLocaleString('pt-BR')}</p>}
                         {item.erro && (
                           <p title={item.erro} className="text-red-400 mt-0.5 truncate max-w-40 cursor-help" style={{ fontSize: queueFontSize - 3 }}>
@@ -414,7 +414,7 @@ export default function CampaignDetailPage() {
                         <div className="h-px flex-1 bg-slate-200" />
                         <div className={clsx(
                           'flex items-center gap-1.5 text-xs font-semibold rounded-full px-3 py-1 border',
-                          withinRange ? 'bg-emerald-50 text-emerald-600 border-emerald-200' :
+                          withinRange ? 'bg-[#FFF3EC] text-[#FF5706] border-[#FF8754]' :
                           belowMin    ? 'bg-red-50 text-red-500 border-red-200' :
                                         'bg-amber-50 text-amber-600 border-amber-200',
                         )}>
@@ -452,7 +452,7 @@ export default function CampaignDetailPage() {
                                 <span className="text-slate-300 tabular-nums" style={{ fontSize: queueFontSize - 3 }}>+{msgDiff}s</span>
                               )}
                               <div className="text-right flex-shrink-0">
-                                {item.sent_at && <p className="text-emerald-500" style={{ fontSize: queueFontSize - 3 }}>Enviado {new Date(item.sent_at).toLocaleTimeString('pt-BR')}</p>}
+                                {item.sent_at && <p className="text-[#10B981]" style={{ fontSize: queueFontSize - 3 }}>Enviado {new Date(item.sent_at).toLocaleTimeString('pt-BR')}</p>}
                                 {!item.sent_at && item.scheduled_at && <p className="text-slate-400" style={{ fontSize: queueFontSize - 3 }}>Agendado {new Date(item.scheduled_at).toLocaleString('pt-BR')}</p>}
                                 {item.erro && (
                                   <p title={item.erro} className="text-red-400 truncate max-w-48 cursor-help" style={{ fontSize: queueFontSize - 3 }}>

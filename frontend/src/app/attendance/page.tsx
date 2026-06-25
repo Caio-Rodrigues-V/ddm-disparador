@@ -8,11 +8,11 @@ import clsx from 'clsx';
 const STATUS_COLORS: Record<string, string> = {
   novo:                'bg-blue-100 text-blue-700',
   aguardando_vendedor: 'bg-amber-100 text-amber-700',
-  em_atendimento:      'bg-emerald-100 text-emerald-700',
+  em_atendimento:      'bg-[#FFF3EC] text-[#FF5706]',
   aguardando_cliente:  'bg-orange-100 text-orange-600',
   concluido:           'bg-slate-100 text-slate-500',
   perdido:             'bg-red-100 text-red-600',
-  convertido:          'bg-emerald-100 text-emerald-800',
+  convertido:          'bg-[#F0FDF4] text-[#10B981]',
 };
 
 const FILTER_OPTIONS = [
@@ -57,7 +57,7 @@ export default function AttendancePage() {
             className={clsx(
               'px-3.5 py-1.5 rounded-xl text-xs font-medium transition-all',
               statusFilter === value
-                ? 'bg-emerald-500 text-white shadow-sm'
+                ? 'bg-[#FF5706] text-white shadow-sm'
                 : 'bg-white text-slate-500 border border-slate-200 hover:border-slate-300',
             )}
           >
@@ -116,7 +116,7 @@ export default function AttendancePage() {
                   <>
                     <button
                       onClick={() => concludeMut.mutate({ id: card.id, status: 'convertido' })}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl transition-all"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium bg-[#10B981] hover:bg-[#059669] text-white rounded-xl transition-all"
                     >
                       <ThumbsUp size={13} /> Convertido
                     </button>

@@ -33,31 +33,14 @@ export function Sidebar() {
       {/* ── Logo DDM ── */}
       <div className="px-6 py-5" style={{ borderBottom: '1px solid var(--sidebar-border)' }}>
         <div className="flex items-center gap-3">
-          {/* Ícone laranja DDM */}
-          <div
-            className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 shadow-lg"
-            style={{ background: 'var(--ddm-primary)', boxShadow: '0 4px 12px rgba(255,87,6,0.35)' }}
-          >
-            {/* Letra D estilizada */}
-            <span
-              className="text-white font-bold text-base leading-none select-none"
-              style={{ fontFamily: 'Poppins, sans-serif' }}
-            >
-              D
-            </span>
-          </div>
-
-          <div>
-            <h1
-              className="text-sm font-bold text-white tracking-tight leading-tight"
-              style={{ fontFamily: 'Poppins, sans-serif' }}
-            >
-              Grupo DDM
-            </h1>
-            <p className="text-xs font-medium uppercase tracking-widest" style={{ color: 'var(--ddm-primary-light)', fontSize: '10px' }}>
-              Disparador IA
-            </p>
-          </div>
+          <img
+            src="/images/logo-ddm-white.png"
+            alt="Grupo DDM"
+            className="h-8 w-auto flex-shrink-0"
+          />
+          <p className="text-xs font-medium uppercase tracking-widest" style={{ color: 'var(--ddm-primary-light)', fontSize: '10px' }}>
+            Disparador IA
+          </p>
         </div>
       </div>
 
