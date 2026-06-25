@@ -64,7 +64,7 @@ export class MessageQueueWorker implements OnModuleInit {
 
     const { data: item, error: queryError } = await this.supabase.db
       .from('message_queue')
-      .select('*, contacts(nome, telefone_normalizado)')
+      .select('*, contacts!contact_id(nome, telefone_normalizado)')
       .eq('status', 'agendado')
       .lte('scheduled_at', now)
       .order('scheduled_at', { ascending: true })
