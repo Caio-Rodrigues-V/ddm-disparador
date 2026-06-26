@@ -81,8 +81,23 @@ export class ContactsController {
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(FileInterceptor('file'))
   async importCsv(@UploadedFile() file: Express.Multer.File, @Request() req: any) {
-    const content = file.buffer.toString('utf-8');
-    const parsed = Papa.parse(content, { header: true, skipEmptyLines: true });
+    // Remove BOM (\uFEFF) que o Excel BR injeta no início do arquivo
+    let content = file.buffer.toString('utf-8').replace(/^\uFEFF/, '');
+
+    // Remove linha "sep=;" que o Excel BR usa para declarar o delimitador
+    let delimiter: string | undefined;
+    const firstLineEnd = content.indexOf('\n');
+    const firstLine = firstLineEnd >= 0 ? content.slice(0, firstLineEnd).trim() : content.trim();
+    if (/^sep=/i.test(firstLine)) {
+      delimiter = firstLine.split('=')[1]?.trim();
+      content = content.slice(firstLineEnd + 1);
+    }
+
+    const parsed = Papa.parse(content, {
+      header: true,
+      skipEmptyLines: true,
+      ...(delimiter ? { delimiter } : {}),
+    });
     return this.contactsService.importContacts(parsed.data as any[], req.user.sub);
   }
 

@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Mail, Lock, ArrowRight, AlertCircle } from 'lucide-react';
 import api from '@/lib/api';
+import { DDM_LOGO_WHITE } from '@/lib/brand';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -47,7 +48,7 @@ export default function LoginPage() {
 
         {/* ── Marca DDM ── */}
         <div className="text-center mb-8">
-          <img src="/images/logo-ddm-white.png" alt="Grupo DDM" className="h-12 w-auto mx-auto mb-4" />
+          <img src={DDM_LOGO_WHITE} alt="Grupo DDM" className="h-12 w-auto mx-auto mb-4" />
           <p className="text-sm" style={{ color: '#64748B', fontFamily: 'Inter, sans-serif' }}>
             Plataforma de Disparo — WhatsApp IA
           </p>

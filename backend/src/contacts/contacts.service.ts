@@ -12,6 +12,7 @@ export class ContactsService {
 
   /** Normaliza telefone para E.164 com DDI Brasil como fallback */
   normalizePhone(raw: string): string | null {
+    if (!raw) return null;
     const cleaned = raw.replace(/\D/g, '');
     // Tenta com DDI Brasil se não tiver
     const withDdi = cleaned.startsWith('55') ? `+${cleaned}` : `+55${cleaned}`;

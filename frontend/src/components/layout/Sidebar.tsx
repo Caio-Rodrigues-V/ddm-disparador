@@ -1,6 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { DDM_LOGO_WHITE } from '@/lib/brand';
 import {
   LayoutDashboard, Users, Megaphone, Smartphone,
   MessageSquare, ShieldOff, LogOut,
@@ -34,7 +35,7 @@ export function Sidebar() {
       <div className="px-6 py-5" style={{ borderBottom: '1px solid var(--sidebar-border)' }}>
         <div className="flex items-center gap-3">
           <img
-            src="/images/logo-ddm-white.png"
+            src={DDM_LOGO_WHITE}
             alt="Grupo DDM"
             className="h-8 w-auto flex-shrink-0"
           />
