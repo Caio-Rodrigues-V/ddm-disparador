@@ -62,9 +62,11 @@ export class MessageQueueWorker implements OnModuleInit {
   private async processNext() {
     const now = new Date().toISOString();
 
+    // ✅ FIX: usando disp_message_queue (tabela real) em vez da view message_queue
+    // A view causava PGRST201 por ambiguidade no relacionamento com contacts
     const { data: item, error: queryError } = await this.supabase.db
-      .from('message_queue')
-      .select('*, contacts!contact_id(nome, telefone_normalizado)')
+      .from('disp_message_queue')
+      .select('*, contacts!disp_message_queue_contact_id_fkey(nome, telefone_normalizado)')
       .eq('status', 'agendado')
       .lte('scheduled_at', now)
       .order('scheduled_at', { ascending: true })
@@ -79,8 +81,9 @@ export class MessageQueueWorker implements OnModuleInit {
 
     this.logger.log(`Processando: ${item.id} | tipo: ${item.tipo} | scheduled: ${item.scheduled_at}`);
 
+    // ✅ FIX: updates também na tabela real
     await this.supabase.db
-      .from('message_queue')
+      .from('disp_message_queue')
       .update({ status: 'enviando' })
       .eq('id', item.id);
 
@@ -94,7 +97,7 @@ export class MessageQueueWorker implements OnModuleInit {
 
       if (!campaign || campaign.status !== 'em_execucao') {
         await this.supabase.db
-          .from('message_queue')
+          .from('disp_message_queue') // ✅ FIX
           .update({ status: 'pausado' })
           .eq('id', item.id);
         return;
@@ -111,7 +114,7 @@ export class MessageQueueWorker implements OnModuleInit {
         const [h, m] = campaign.janela_inicio.split(':');
         amanha.setHours(parseInt(h), parseInt(m), 0, 0);
         await this.supabase.db
-          .from('message_queue')
+          .from('disp_message_queue') // ✅ FIX
           .update({ scheduled_at: amanha.toISOString() })
           .eq('id', item.id);
         return;
@@ -163,7 +166,7 @@ export class MessageQueueWorker implements OnModuleInit {
         result = await this.waha.sendText(sessionName, telefone, item.mensagem_final);
       }
 
-      await this.supabase.db.from('message_queue').update({
+      await this.supabase.db.from('disp_message_queue').update({ // ✅ FIX
         status: 'enviado',
         sent_at: new Date().toISOString(),
         waha_message_id: result.id,
@@ -195,7 +198,7 @@ export class MessageQueueWorker implements OnModuleInit {
         ? new Date(Date.now() + tentativas * 60 * 1000).toISOString()
         : undefined;
 
-      await this.supabase.db.from('message_queue').update({
+      await this.supabase.db.from('disp_message_queue').update({ // ✅ FIX
         status: novoStatus,
         erro: err.message,
         tentativas,
